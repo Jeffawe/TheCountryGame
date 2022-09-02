@@ -37,7 +37,7 @@ const RandomFact = ({ startButton, closeRandomFact, randomFactBool, country, cou
 
 
     return (
-        <div className='flex flex-col items-center' id='randomFact'>
+        <div className='flex flex-col items-center md:pb-0 pb-20' id='randomFact'>
             <div className='p-3'>
                 <div className='py-2'>
                     <h1 className='text-white md:text-lg text-base font-semibold text-center'>Random Fact</h1>

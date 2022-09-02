@@ -15,27 +15,27 @@ const ScorePage = ({ score }) => {
               <p className='text-white py-5 font-semibold text-base'>What! You didn't even try</p>
             </div>
           }
-          {5 <= score && score < 5 &&
+          {2<= score && score < 5 &&
             <div>
               <p className='text-white py-5 font-semibold text-base'>Nice try. You can do better though</p>
             </div>
           }
-          {10 <= score && score < 10 &&
+          {5 <= score && score < 10 &&
             <div>
               <p className='text-white py-5 font-semibold text-base'>Decent. You're knowledge on flags is good</p>
             </div>
           }
-          {20 <= score && score < 15 &&
+          {10 <= score && score < 15 &&
             <div>
               <p className='text-white py-5 font-semibold text-base'>Wow. I'm impressed</p>
             </div>
           }
-          {30 <= score && score < 20 &&
+          {15 <= score && score < 20 &&
             <div>
               <p className='text-white py-5 font-semibold text-base'>You're Smart. Really Smart</p>
             </div>
           }
-          {40 <= score && score < 30 &&
+          {20 <= score && score < 30 &&
             <div>
               <p className='text-white py-5 font-semibold text-base'>Are you using Google. Because Wow. You're amazing</p>
             </div>

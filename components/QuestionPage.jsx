@@ -179,7 +179,7 @@ const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScor
     <div className='h-screen bg-pink-500 flex justify-center'>
       {!startGame &&
         <div className='self-center'>
-          <span className='transition duration-500 transform hover:scale-125 inline-block bg-blue-700 text-base md:text-2xl font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer' onClick={OnStartButtonPress}>
+          <span className='transition duration-500 transform hover:scale-125 inline-block bg-red-500 text-base md:text-2xl font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer' onClick={OnStartButtonPress}>
             Start
           </span>
         </div>

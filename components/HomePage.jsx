@@ -63,11 +63,11 @@ const HomePage = ({onRegionClick}) => {
                             {showRegionDropDown &&
                                 <div className="origin-top-right absolute right-0 mt-2 w-32 md:w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                                     <div className="py-1" role="none">
-                                        <a className="text-gray-700 hover:bg-blue-300 block px-4 py-2 text-sm" role="menuitem" tabIndex="-1" id="menu-item-1" onClick={() => {onPickRegion('europe')}}>Europe</a>
-                                        <a className="text-gray-700 hover:bg-blue-300 block px-4 py-2 text-sm" role="menuitem" tabIndex="-1" id="menu-item-2" onClick={() => {onPickRegion('africa')}}>Africa</a>
-                                        <a className="text-gray-700 block hover:bg-blue-300 px-4 py-2 text-sm" role="menuitem" tabIndex="-1" id="menu-item-2" onClick={() => {onPickRegion('america')}}>The Americas</a>
-                                        <a className="text-gray-700 block hover:bg-blue-300 px-4 py-2 text-sm" role="menuitem" tabIndex="-1" id="menu-item-2" onClick={() => {onPickRegion('asia')}}>Asia</a>
-                                        <a className="text-gray-700 block hover:bg-blue-300 px-4 py-2 text-sm" role="menuitem" tabIndex="-1" id="menu-item-2" onClick={() => {onPickRegion('oceania')}}>Australia</a>
+                                        <a className="text-gray-700 hover:bg-blue-300 block px-4 py-2 text-sm cursor-pointer" role="menuitem" tabIndex="-1" id="menu-item-1" onClick={() => {onPickRegion('europe')}}>Europe</a>
+                                        <a className="text-gray-700 hover:bg-blue-300 block px-4 py-2 text-sm cursor-pointer" role="menuitem" tabIndex="-1" id="menu-item-2" onClick={() => {onPickRegion('africa')}}>Africa</a>
+                                        <a className="text-gray-700 block hover:bg-blue-300 px-4 py-2 text-sm cursor-pointer" role="menuitem" tabIndex="-1" id="menu-item-2" onClick={() => {onPickRegion('america')}}>The Americas</a>
+                                        <a className="text-gray-700 block hover:bg-blue-300 px-4 py-2 text-sm cursor-pointer" role="menuitem" tabIndex="-1" id="menu-item-2" onClick={() => {onPickRegion('asia')}}>Asia</a>
+                                        <a className="text-gray-700 block hover:bg-blue-300 px-4 py-2 text-sm cursor-pointer" role="menuitem" tabIndex="-1" id="menu-item-2" onClick={() => {onPickRegion('oceania')}}>Australia</a>
                                     </div>
                                 </div>
                             }
