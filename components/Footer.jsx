@@ -14,11 +14,8 @@ const Footer = () => {
         <div className='flex justify-center p-2'>
             <p className='text-white text-sm md:text-base font-normal cursor-pointer'>Powered by <a href='https://restcountries.com/'>Rest Countries </a></p>
         </div>
-        <div className='flex justify-center'>
-            <p className='text-white text-sm md:text-base font-normal cursor-pointer'>Globe Icon by Icon8</p>
-        </div>
         <div className='flex justify-center pb-5'>
-            <p className='text-white text-sm md:text-base font-normal cursor-pointer'>Copyright @ Ozoekwe-Awagu Jeffery 2022</p>
+            <p className='text-white text-sm md:text-base font-normal cursor-pointer'>Globe Icon by Icon8</p>
         </div>
     </div>
   )

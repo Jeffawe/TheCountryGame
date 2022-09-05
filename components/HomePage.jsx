@@ -21,10 +21,10 @@ const HomePage = ({onRegionClick}) => {
 
     return (
         <div className='flex justify-center h-screen backgroundImage'>
-            <div className='md:p-10 p-3 self-center'>
+            <div className='md:p-10 p-3 pt-40 md:py-0 md:self-center'>
                 <div className=''>
                     <h1 className='text-center text-4xl md:text-5xl lg:text-8xl text-white font-bold p-5'>The Country Game</h1>
-                    <p className='text-center text-base md:text-xl text-white font-normal'>See how much knowledge of countries you actually have</p>
+                    <p className='text-center text-base md:text-xl text-white font-normal'>How good are you in Geography? Let's Find out.</p>
                 </div>
                 <div className='flex justify-center py-8'>
                     <a>

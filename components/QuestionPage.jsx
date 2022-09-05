@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import RandomFact from './RandomFact'
 import { useRouter } from 'next/router'
 import { BiShuffle } from 'react-icons/bi';
+import Lives from './Lives'
 
 
 const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScore }) => {
@@ -29,6 +30,10 @@ const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScor
   const [activeButton, setActiveButton] = useState();
   //Holds the Right Answer
   const [rightAnswer, setrightAnswer] = useState(0);
+  //Holds the amount of lives the user has left
+  const [LivesLeft, setLivesLeft] = useState(3);
+  //Holds a boolean that allows the life to transit out
+  const [LifeReducing, setLifeReducing] = useState(false);
 
   const checkIfCorrect = (option, id) => {
     setActiveButton(option);
@@ -78,9 +83,19 @@ const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScor
       }
       showRealAnswer();
 
-      setTimeout(() => {
-        router.push('/scores')
-      }, 3500);
+      setLivesLeft(LivesLeft - 1);
+      setLifeReducing(true);
+      console.log(LivesLeft);
+
+
+      if (LivesLeft <= 0) {
+        setLifeReducing(false);
+        setTimeout(() => {
+          router.push('/scores')
+        }, 3500);
+      } else {
+        setrandomFact(true);
+      }
     }
   }
 
@@ -176,9 +191,9 @@ const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScor
   }, [country])
 
   return (
-    <div className='h-screen bg-pink-500 flex justify-center'>
+    <div className='md:h-screen bg-pink-500 flex justify-center top-padding'>
       {!startGame &&
-        <div className='self-center'>
+        <div className='self-center md:pt-0 pt-32 h-96'>
           <span className='transition duration-500 transform hover:scale-125 inline-block bg-red-500 text-base md:text-2xl font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer' onClick={OnStartButtonPress}>
             Start
           </span>
@@ -186,43 +201,48 @@ const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScor
       }
 
       {startGame &&
-        <div className='h-full flex flex-col md:flex-row justify-center '>
-          <div className='w-full items-center flex justify-center md:pb-0 pb-5'>
-            <div className='justify-center flex'>
-              <img
-                src={countryFlag[1]}
-                alt={country.capital}
-                className='w-3/4 flex justify-center'
-              />
-            </div>
+        <div>
+          <div>
+            <Lives livesReducing={LifeReducing} livesLeft={LivesLeft} />
           </div>
-          <div className='w-full items-center flex justify-center'>
-            <div className='px-5'>
-              <div className='px-8 py-5'>
-                <h1 className='text-center font-semibold text-white text-lg md:text-2xl'>What Country has this flag?</h1>
+          <div className='h-full flex flex-col md:flex-row justify-center'>
+            <div className='w-full items-center flex justify-center md:pb-0 pb-5'>
+              <div className='justify-center flex'>
+                <img
+                  src={countryFlag[1]}
+                  alt={country.capital}
+                  className='w-3/4 flex justify-center'
+                />
               </div>
-              <div className='flex justify-center flex-col gap-y-5'>
-                <button disabled={activeButton && activeButton !== optionsArray[0]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[0], 1) }}>
-                  {optionsArray[0]}
-                </button>
-                <button disabled={activeButton && activeButton !== optionsArray[1]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color2} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[1], 2) }}>
-                  {optionsArray[1]}
-                </button>
-                <button disabled={activeButton && activeButton !== optionsArray[2]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color3} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[2], 3) }}>
-                  {optionsArray[2]}
-                </button>
-                <button disabled={activeButton && activeButton !== optionsArray[3]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color4} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[3], 4) }}>
-                  {optionsArray[3]}
-                </button>
-              </div>
-
-              {/* Opens Up A random fact once the user gets the answer right */}
-              {randomFact &&
-                <div className='px-8 py-10'>
-                  <RandomFact startButton={startButton} closeRandomFact={closeRandomFact} randomFactBool={randomFact} country={country} countryName={countryParticularName} />
+            </div>
+            <div className='w-full items-center flex justify-center'>
+              <div className='px-5'>
+                <div className='px-8 py-5'>
+                  <h1 className='text-center font-semibold text-white text-lg md:text-2xl'>What Country has this flag?</h1>
                 </div>
-              }
+                <div className='flex justify-center flex-col gap-y-5'>
+                  <button disabled={activeButton && activeButton !== optionsArray[0]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[0], 1) }}>
+                    {optionsArray[0]}
+                  </button>
+                  <button disabled={activeButton && activeButton !== optionsArray[1]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color2} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[1], 2) }}>
+                    {optionsArray[1]}
+                  </button>
+                  <button disabled={activeButton && activeButton !== optionsArray[2]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color3} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[2], 3) }}>
+                    {optionsArray[2]}
+                  </button>
+                  <button disabled={activeButton && activeButton !== optionsArray[3]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color4} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[3], 4) }}>
+                    {optionsArray[3]}
+                  </button>
+                </div>
 
+                {/* Opens Up A random fact once the user gets the answer right */}
+                {randomFact &&
+                  <div className='px-8 h-full'>
+                    <RandomFact startButton={startButton} closeRandomFact={closeRandomFact} randomFactBool={randomFact} country={country} countryName={countryParticularName} />
+                  </div>
+                }
+
+              </div>
             </div>
           </div>
         </div>

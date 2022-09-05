@@ -44,27 +44,27 @@ const RandomFact = ({ startButton, closeRandomFact, randomFactBool, country, cou
                 </div>
                 {randomFactNumber == 0 &&
                     <div>
-                        <h1 className='text-white md:text-lg text-base text-center font-normal'>The Capital of {countryName} is {country.capital}</h1>
+                        <h1 className='text-white md:text-lg text-base text-center font-normal'>The Capital of {countryName} is {country.capital}.</h1>
                     </div>
                 }
                 {randomFactNumber == 1 &&
                     <div>
-                        <h1 className='text-white md:text-lg text-base text-center font-normal'>The Population of {countryName} is {(country.population).toLocaleString(undefined, { maximumFractionDigits: 2 })}</h1>
+                        <h1 className='text-white md:text-lg text-base text-center font-normal'>The Population of {countryName} is {(country.population).toLocaleString(undefined, { maximumFractionDigits: 2 })}.</h1>
                     </div>
                 }
                 {randomFactNumber == 2 &&
                     <div>
-                        <h1 className='text-white md:text-lg text-base text-center font-normal'>The official language of {countryName} is {countryLangauge[0]}</h1>
+                        <h1 className='text-white md:text-lg text-base text-center font-normal'>The Official language of {countryName} is {countryLangauge[0]}.</h1>
                     </div>
                 }
                 {randomFactNumber == 3 &&
                     <div>
-                        <h1 className='text-white md:text-lg text-base text-center font-normal'>The Currency used in {countryName} is {countryCurrency[0]} ({countryCurrency[1]})</h1>
+                        <h1 className='text-white md:text-lg text-base text-center font-normal'>The Currency used in {countryName} is {countryCurrency[0]} ({countryCurrency[1]}).</h1>
                     </div>
                 }
                 {randomFactNumber == 4 &&
                     <div>
-                        <h1 className='text-white md:text-lg text-base text-center font-normal'>The Area code of {countryName} is {country.area}</h1>
+                        <h1 className='text-white md:text-lg text-base text-center font-normal'>The Area code of {countryName} is {country.area}.</h1>
                     </div>
                 }
             </div>

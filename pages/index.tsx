@@ -14,6 +14,7 @@ const Home: NextPage = ({ onRegionClick, setscoreToZero }: any) => {
       <Head>
         <title>The Country Game</title>
         <link rel="icon" href="/favicon.ico" />
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;400;600;700&display=swap" rel="stylesheet"></link>
       </Head>
 
       <main>
