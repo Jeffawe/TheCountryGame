@@ -38,7 +38,7 @@ const Lives = ({livesLeft, livesReducing}) => {
                 </div>
             </div>
             <div className='flex justify-center pt-3'>
-                <h1 className='text-white font-normal text-base md:text-lg'>{(livesLeft) !== 1 ? `You have ${livesLeft} Chances Remaining` : `You have ${livesLeft} Chance Remaining`}</h1>
+                <h1 className='text-white font-normal text-base md:text-lg'>{(livesLeft + 1) !== 1 ? `You have ${livesLeft + 1} Chances Remaining` : `You have ${livesLeft + 1} Chance Remaining`}</h1>
             </div>
         </div>
     )
