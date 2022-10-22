@@ -16,7 +16,7 @@ const Lives = ({livesLeft, livesReducing}) => {
                     {livesReducing && livesLeft == 0 &&
                         <AiFillHeart color={`${color}`} className='md:text-7xl text-5xl puff-out-center absolute' />
                     }
-                    {livesLeft >= 1 &&
+                    {livesLeft >= 0 &&
                         <AiFillHeart color={`${color}`} className='md:text-7xl text-5xl relative' />
                     }
                 </div>
@@ -24,7 +24,7 @@ const Lives = ({livesLeft, livesReducing}) => {
                     {livesReducing && livesLeft == 1 &&
                         <AiFillHeart color={`${color}`} className='md:text-7xl text-5xl puff-out-center absolute' />
                     }
-                    {livesLeft >= 2 &&
+                    {livesLeft >= 1 &&
                         <AiFillHeart color={`${color}`} className='md:text-7xl text-5xl relative' />
                     }
                 </div>
@@ -32,7 +32,7 @@ const Lives = ({livesLeft, livesReducing}) => {
                     {livesReducing &&
                         <AiFillHeart color={`${color}`} className='md:text-7xl text-5xl puff-out-center absolute' />
                     }
-                    {livesLeft == 3 &&
+                    {livesLeft == 2 &&
                         <AiFillHeart color={`${color}`} className='md:text-7xl text-5xl relative' />
                     }
                 </div>

@@ -3,6 +3,7 @@ import RandomFact from './RandomFact'
 import { useRouter } from 'next/router'
 import { BiShuffle } from 'react-icons/bi';
 import Lives from './Lives'
+import Footer from './Footer';
 
 
 const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScore }) => {
@@ -31,13 +32,13 @@ const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScor
   //Holds the Right Answer
   const [rightAnswer, setrightAnswer] = useState(0);
   //Holds the amount of lives the user has left
-  const [LivesLeft, setLivesLeft] = useState(3);
+  const [LivesLeft, setLivesLeft] = useState(2);
   //Holds a boolean that allows the life to transit out
   const [LifeReducing, setLifeReducing] = useState(false);
 
   const checkIfCorrect = (option, id) => {
     setActiveButton(option);
-    const blue = 'bg-blue-500';
+    const blue = 'bg-green-500';
     const red = 'bg-red-500';
 
     if (option == countryParticularName) {
@@ -88,19 +89,19 @@ const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScor
       console.log(LivesLeft);
 
 
-      if (LivesLeft <= 0) {
+      if (LivesLeft > 0) {
+        setrandomFact(true);
+      } else {
         setLifeReducing(false);
         setTimeout(() => {
           router.push('/scores')
         }, 3500);
-      } else {
-        setrandomFact(true);
       }
     }
   }
 
   const showRealAnswer = () => {
-    const blue = 'bg-blue-500';
+    const blue = 'bg-green-500';
 
     if (optionsArray[0] == countryParticularName) {
       setcolor(blue);
@@ -119,6 +120,10 @@ const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScor
     if (isLoading) {
       setstartGame(true);
       startButton();
+    } else {
+      window.location.reload();
+      router.push('/');
+      alert("There was an issue loading a game. Try picking a region again");
     }
   }
 
@@ -137,24 +142,6 @@ const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScor
   }
 
   //Shuffle the array of options
-  const shuffle = (array) => {
-    let currentIndex = array.length, randomIndex;
-
-    // While there remain elements to shuffle.
-    while (currentIndex != 0) {
-
-      // Pick a remaining element.
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
-    }
-
-    return array;
-  }
-
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -191,63 +178,64 @@ const QuestionPage = ({ country, isLoading, startButton, optionsArray, AddtoScor
   }, [country])
 
   return (
-    <div className='md:h-screen bg-pink-500 flex justify-center top-padding'>
-      {!startGame &&
-        <div className='self-center md:pt-0 pt-32 h-96'>
-          <span className='transition duration-500 transform hover:scale-125 inline-block bg-red-500 text-base md:text-2xl font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer' onClick={OnStartButtonPress}>
-            Start
-          </span>
-        </div>
-      }
-
-      {startGame &&
-        <div>
-          <div>
-            <Lives livesReducing={LifeReducing} livesLeft={LivesLeft} />
+    <div className='bg-pink-500'>
+      <div className='md:h-screen bg-pink-500 flex justify-center top-padding'>
+        {!startGame &&
+          <div className='self-center md:pt-0 pt-32 h-96'>
+            <span className='transition duration-500 transform hover:scale-125 inline-block bg-red-500 text-base md:text-2xl font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer' onClick={OnStartButtonPress}>
+              Start
+            </span>
           </div>
-          <div className='h-full flex flex-col md:flex-row justify-center'>
-            <div className='w-full items-center flex justify-center md:pb-0 pb-5'>
-              <div className='justify-center flex'>
-                <img
-                  src={countryFlag[1]}
-                  alt={country.capital}
-                  className='w-3/4 flex justify-center'
-                />
-              </div>
-            </div>
-            <div className='w-full items-center flex justify-center'>
-              <div className='px-5'>
-                <div className='px-8 py-5'>
-                  <h1 className='text-center font-semibold text-white text-lg md:text-2xl'>What Country has this flag?</h1>
-                </div>
-                <div className='flex justify-center flex-col gap-y-5'>
-                  <button disabled={activeButton && activeButton !== optionsArray[0]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[0], 1) }}>
-                    {optionsArray[0]}
-                  </button>
-                  <button disabled={activeButton && activeButton !== optionsArray[1]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color2} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[1], 2) }}>
-                    {optionsArray[1]}
-                  </button>
-                  <button disabled={activeButton && activeButton !== optionsArray[2]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color3} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[2], 3) }}>
-                    {optionsArray[2]}
-                  </button>
-                  <button disabled={activeButton && activeButton !== optionsArray[3]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color4} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[3], 4) }}>
-                    {optionsArray[3]}
-                  </button>
-                </div>
+        }
 
-                {/* Opens Up A random fact once the user gets the answer right */}
-                {randomFact &&
-                  <div className='px-8 h-full'>
-                    <RandomFact startButton={startButton} closeRandomFact={closeRandomFact} randomFactBool={randomFact} country={country} countryName={countryParticularName} />
+        {startGame &&
+          <div className='flex flex-col'>
+            <div className="pb-5 sm:pb-3">
+              <Lives livesReducing={LifeReducing} livesLeft={LivesLeft} />
+            </div>
+            <div className='h-full flex flex-1 flex-col md:flex-row justify-center'>
+              <div className='w-full items-center flex justify-center md:pb-0 pb-5'>
+                <div className='justify-center flex'>
+                  <img
+                    src={countryFlag[1]}
+                    alt={country.capital}
+                    className='w-3/4 flex justify-center'
+                  />
+                </div>
+              </div>
+              <div className='w-full items-center flex justify-center'>
+                <div className='px-5'>
+                  <div className='px-8 py-3'>
+                    <h1 className='text-center font-semibold text-white text-base md:text-xl'>What Country has this flag?</h1>
                   </div>
-                }
-
+                  <div className='flex justify-center flex-col gap-y-5'>
+                    <button disabled={activeButton && activeButton !== optionsArray[0]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[0], 1) }}>
+                      <p className='text-base text-white font-normal'>{optionsArray[0]}</p>
+                    </button>
+                    <button disabled={activeButton && activeButton !== optionsArray[1]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color2} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[1], 2) }}>
+                      <p className='text-base text-white font-normal'>{optionsArray[1]}</p>
+                    </button>
+                    <button disabled={activeButton && activeButton !== optionsArray[2]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color3} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[2], 3) }}>
+                      <p className='text-base text-white font-normal'>{optionsArray[2]}</p>
+                    </button>
+                    <button disabled={activeButton && activeButton !== optionsArray[3]} className={`transition duration-500 transform text-left hover:border-red-600 inline-block ${color4} border-2 border-white text-sm md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer`} onClick={() => { checkIfCorrect(optionsArray[3], 4) }}>
+                      <p className='text-base text-white font-normal'>{optionsArray[3]}</p>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        }
+
+      </div>
+      {/* Opens Up A random fact once the user gets the answer right */}
+      {randomFact &&
+        <div className='md:py-5 py-0' id='randomFact'>
+          <RandomFact startButton={startButton} closeRandomFact={closeRandomFact} randomFactBool={randomFact} country={country} countryName={countryParticularName} />
         </div>
       }
-    </div >
+    </div>
   )
 }
 

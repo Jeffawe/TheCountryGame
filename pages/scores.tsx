@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { ScorePage } from '../components'
-import { useEffect, useState } from 'react'
+import { Footer, ScorePage } from '../components'
 
 const scores: NextPage = ({ score }: any) => {
 

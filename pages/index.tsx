@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Navbar, HomePage } from '../components'
+import { Navbar, HomePage, Footer } from '../components'
 import Image from 'next/image'
 import { useEffect } from 'react'
 

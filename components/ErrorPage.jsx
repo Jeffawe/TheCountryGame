@@ -13,7 +13,6 @@ const ErrorPage = ({ isLoading }) => {
             <h1 className='text-center text-white text-xl md:text-2xl font-bold'>Page not Found</h1>
             <ul className='text-center py-1 text-white text-base md:text-lg pt-5 font-semibold'>This probably happened because:</ul>
             <li className='md:py-0 py-1 text-white  text-base md:text-lg font-semibold'>Poor Network Connection</li>
-            <li className='text-white  text-base md:text-lg font-semibold'>The Keyword you requested is not currently available. Try another keyword</li>
           </div>
         </div>
       }
