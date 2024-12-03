@@ -5,6 +5,9 @@
     "build": "next build",
     "start": "next start"
   },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "axios": "^0.27.2",
     "next": "latest",
