@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <div className='flex justify-center bg-red-500 p-3 relative'>
         <div>
-            <Link href='./'><a><FcGlobe size={50} className='hover:animate-spin' /></a></Link>
+            <Link href='./'><FcGlobe size={50} className='hover:animate-spin' /></Link>
         </div>
     </div>
   )

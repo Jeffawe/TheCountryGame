@@ -15,9 +15,9 @@ const ExhaustedCountryList = () => {
         </div>
         <div className='flex justify-center'>
           <Link href='./'>
-            <a><span className='transition duration-500 transform hover:scale-125 inline-block bg-pink-600 text-base md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer'>
+            <span className='transition duration-500 transform hover:scale-125 inline-block bg-pink-600 text-base md:text-lg font-medium rounded-full text-white px-8 md:px-12 py-2 cursor-pointer'>
               Retry
-            </span></a>
+            </span>
           </Link>
         </div>
       </div>
