@@ -75,13 +75,6 @@ const question: NextPage = ({ countries, isLoading, setLoadingFalse, AddtoScore 
     }
   }
 
-  useEffect(() => {
-    console.log(countries)
-    if (countries) {
-
-    }
-  }, [countries])
-
 
   return (
     <div className="scroll-smooth">
