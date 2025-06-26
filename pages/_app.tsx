@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [countries, setCountries] = useState<any[]>([]);
+  const [countries, setcountries] = useState<any[]>([]);
   const [isLoading, setisLoading] = useState(false);
   //sets the score of the player
   const [score, setscore] = useState(0);
