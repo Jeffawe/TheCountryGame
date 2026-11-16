@@ -12,7 +12,7 @@ import {
   type RegionId,
 } from '../lib/countries'
 import { startOnlineGame } from '../lib/leaderboard'
-import { saveResult } from '../lib/storage'
+import { pickFact, saveResult } from '../lib/storage'
 import FlagImage from './FlagImage'
 import Hearts from './Hearts'
 
@@ -42,8 +42,17 @@ export default function QuestionPage({ region, difficulty }: Props) {
   const revealed = picked !== null
   const isCorrect = revealed && picked === q.answer.name
   const finished = lives === 0 || index === questions.length - 1
+  const [factIndex, setFactIndex] = useState<number | null>(null)
   const factList = facts?.[q.answer.code]
-  const fact: Fact | null = factList?.length ? factList[Math.floor(q.factSeed * factList.length)] : null
+  const fact: Fact | null = factList?.length && factIndex !== null ? factList[factIndex] ?? null : null
+
+  // Choose the fact once per question, preferring ones this player hasn't seen for this country
+  useEffect(() => {
+    setFactIndex(null)
+  }, [index])
+  useEffect(() => {
+    if (revealed && factIndex === null && factList?.length) setFactIndex(pickFact(q.answer.code, factList.length, q.factSeed))
+  }, [revealed, factIndex, factList, q])
 
   const pick = useCallback(
     (name: string) => {
@@ -199,22 +208,25 @@ export default function QuestionPage({ region, difficulty }: Props) {
                 {fact.text}
               </p>
             )}
-            <a
-              href={wikiUrl(q.answer)}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-1 inline-block text-sm font-semibold text-white/70 underline-offset-2 hover:text-white hover:underline"
-            >
-              More about {q.answer.name} on Wikipedia ↗
-            </a>
-            <button
-              ref={nextRef}
-              type="button"
-              onClick={next}
-              className="mt-4 w-full rounded-full bg-white px-6 py-3 text-base font-bold text-slate-900 transition hover:bg-pink-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"
-            >
-              {finished ? 'See results' : 'Next flag →'}
-            </button>
+            <div className="mt-4 flex items-center justify-between gap-3">
+              <a
+                href={wikiUrl(q.answer)}
+                target="_blank"
+                rel="noreferrer"
+                className="min-w-0 text-sm font-semibold text-white/70 underline-offset-2 hover:text-white hover:underline"
+              >
+                <span className="sm:hidden">Read more on Wikipedia ↗</span>
+                <span className="hidden sm:inline">More about {q.answer.name} on Wikipedia ↗</span>
+              </a>
+              <button
+                ref={nextRef}
+                type="button"
+                onClick={next}
+                className="shrink-0 rounded-full bg-white px-6 py-3 text-base font-bold text-slate-900 transition hover:bg-pink-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                {finished ? 'See results' : 'Next flag →'}
+              </button>
+            </div>
           </div>
         </div>
       )}

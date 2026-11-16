@@ -62,3 +62,16 @@ export const saveName = (name: string) => write('localStorage', NAME_KEY, name)
 export function getLastResult(): GameResult | null {
   return read<GameResult | null>('sessionStorage', RESULT_KEY, null)
 }
+
+const SEEN_KEY = 'tcg:seen-facts'
+
+/** Picks a fact for a country the player hasn't seen yet, cycling once all have been shown. */
+export function pickFact(code: string, count: number, seed: number): number {
+  const seen = read<Record<string, number[]>>('localStorage', SEEN_KEY, {})
+  let used = (seen[code] ?? []).filter((i) => i < count)
+  if (used.length >= count) used = []
+  const fresh = Array.from({ length: count }, (_, i) => i).filter((i) => !used.includes(i))
+  const pick = fresh[Math.floor(seed * fresh.length)]
+  write('localStorage', SEEN_KEY, { ...seen, [code]: [...used, pick] })
+  return pick
+}
