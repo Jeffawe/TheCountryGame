@@ -16,6 +16,15 @@ export default function Layout({ children }: { children: ReactNode }) {
             </span>
             <span className="text-base sm:text-lg">The Country Game</span>
           </Link>
+          {!playing && (
+            <Link
+              href="/leaderboard"
+              className="rounded-full px-3 py-1 text-sm font-semibold text-white/80 hover:bg-white/10 hover:text-white"
+            >
+              🏆 <span className="hidden sm:inline">Leaderboard</span>
+              <span className="sr-only sm:hidden">Leaderboard</span>
+            </Link>
+          )}
           {playing && (
             <Link href="/" className="rounded-full px-3 py-1 text-sm text-white/70 hover:bg-white/10 hover:text-white">
               Quit

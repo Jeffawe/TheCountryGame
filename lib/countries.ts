@@ -6,15 +6,18 @@ export type Country = {
   official: string
   region: string
   subregion: string
-  capital: string
-  area: number
-  languages: string[]
-  currency: { name: string; symbol: string | null } | null
-  landlocked: boolean
-  borders: string[]
-  demonym: string | null
-  tld: string | null
-  calling: string | null
+  wiki: string // English Wikipedia article title
+}
+
+export type Fact = { label: string; text: string }
+
+export const wikiUrl = (c: Country) => `https://en.wikipedia.org/wiki/${encodeURIComponent(c.wiki)}`
+
+/** Facts live in a separate chunk so they don't slow down the first page load */
+let factsPromise: Promise<Record<string, Fact[]>> | null = null
+export function loadFacts() {
+  factsPromise ??= import('../data/facts.json').then((m) => m.default as Record<string, Fact[]>)
+  return factsPromise
 }
 
 export const ALL_COUNTRIES = raw as Country[]
@@ -78,7 +81,7 @@ export function shuffle<T>(input: readonly T[]): T[] {
 export type Question = {
   answer: Country
   options: Country[] // 4 shuffled options, includes the answer
-  fact: string
+  factSeed: number // picks which fact to show, fixed when the game is built
 }
 
 /** Picks 3 wrong answers. On hard, prefers neighbours in the same subregion, then region. */
@@ -96,38 +99,11 @@ function pickDistractors(answer: Country, pool: Country[], difficulty: Difficult
   return tiers.flat().slice(0, 3)
 }
 
-const n = (value: number) => value.toLocaleString('en-US')
-const list = (items: string[]) =>
-  items.length <= 1 ? (items[0] ?? '') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`
-
-export function makeFact(c: Country): string {
-  const facts: string[] = [`The capital of ${c.name} is ${c.capital}.`]
-  if (c.languages.length)
-    facts.push(
-      c.languages.length === 1
-        ? `The official language of ${c.name} is ${c.languages[0]}.`
-        : `${c.name} has ${c.languages.length} official languages, including ${list(c.languages.slice(0, 3))}.`,
-    )
-  if (c.currency)
-    facts.push(`${c.name} uses the ${c.currency.name}${c.currency.symbol ? ` (${c.currency.symbol})` : ''}.`)
-  if (c.area) facts.push(`${c.name} covers about ${n(c.area)} km².`)
-  facts.push(
-    c.borders.length
-      ? `${c.name} shares a land border with ${list(c.borders.slice(0, 5))}${c.borders.length > 5 ? ' and more' : ''}.`
-      : `${c.name} has no land borders.`,
-  )
-  if (c.landlocked) facts.push(`${c.name} is landlocked, with no coastline.`)
-  if (c.calling) facts.push(`Phone numbers in ${c.name} start with ${c.calling}.`)
-  if (c.tld) facts.push(`Websites from ${c.name} often end in ${c.tld}.`)
-  facts.push(`${c.name} is in ${c.subregion}.`)
-  return facts[Math.floor(Math.random() * facts.length)]
-}
-
 export function buildQuestion(answer: Country, pool: Country[], difficulty: Difficulty): Question {
   return {
     answer,
     options: shuffle([answer, ...pickDistractors(answer, pool, difficulty)]),
-    fact: makeFact(answer),
+    factSeed: Math.random(),
   }
 }
 

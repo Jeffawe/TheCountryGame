@@ -1,6 +1,8 @@
 import type { Difficulty, RegionId } from './countries'
 
 export type GameResult = {
+  gameId: string | null // leaderboard session, null if the leaderboard is off
+  submittedRank?: number // set once the player has put their name on the leaderboard
   region: RegionId
   difficulty: Difficulty
   score: number
@@ -47,6 +49,15 @@ export function saveResult(r: Omit<GameResult, 'isNewBest'>): GameResult {
   write('sessionStorage', RESULT_KEY, result)
   return result
 }
+
+export function updateLastResult(patch: Partial<GameResult>) {
+  const r = getLastResult()
+  if (r) write('sessionStorage', RESULT_KEY, { ...r, ...patch })
+}
+
+const NAME_KEY = 'tcg:name'
+export const getSavedName = () => read<string>('localStorage', NAME_KEY, '')
+export const saveName = (name: string) => write('localStorage', NAME_KEY, name)
 
 export function getLastResult(): GameResult | null {
   return read<GameResult | null>('sessionStorage', RESULT_KEY, null)

@@ -1,6 +1,17 @@
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { MAX_LIVES, buildGame, flagSvgUrl, getRegion, type Difficulty, type RegionId } from '../lib/countries'
+import {
+  MAX_LIVES,
+  buildGame,
+  flagSvgUrl,
+  getRegion,
+  loadFacts,
+  wikiUrl,
+  type Difficulty,
+  type Fact,
+  type RegionId,
+} from '../lib/countries'
+import { startOnlineGame } from '../lib/leaderboard'
 import { saveResult } from '../lib/storage'
 import FlagImage from './FlagImage'
 import Hearts from './Hearts'
@@ -17,12 +28,22 @@ export default function QuestionPage({ region, difficulty }: Props) {
   const [wrong, setWrong] = useState(0)
   const [streak, setStreak] = useState(0)
   const [bestStreak, setBestStreak] = useState(0)
+  const [facts, setFacts] = useState<Record<string, Fact[]> | null>(null)
+  const gameId = useRef<Promise<string | null> | null>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    loadFacts().then(setFacts, () => setFacts({}))
+    // Registers the game with the leaderboard server (null if the leaderboard is off)
+    gameId.current = startOnlineGame(region, difficulty)
+  }, [region, difficulty])
 
   const q = questions[index]
   const revealed = picked !== null
   const isCorrect = revealed && picked === q.answer.name
   const finished = lives === 0 || index === questions.length - 1
+  const factList = facts?.[q.answer.code]
+  const fact: Fact | null = factList?.length ? factList[Math.floor(q.factSeed * factList.length)] : null
 
   const pick = useCallback(
     (name: string) => {
@@ -43,9 +64,11 @@ export default function QuestionPage({ region, difficulty }: Props) {
     [picked, q],
   )
 
-  const next = () => {
+  const next = async () => {
     if (finished) {
+      const id = await (gameId.current ?? Promise.resolve(null))
       saveResult({
+        gameId: id,
         region,
         difficulty,
         score,
@@ -168,7 +191,22 @@ export default function QuestionPage({ region, difficulty }: Props) {
             <p className="text-lg font-bold sm:text-xl">
               {isCorrect ? 'Correct! 🎉' : `Not quite. That was ${q.answer.name}.`}
             </p>
-            <p className="mt-1 text-sm text-white/85 sm:text-base">{q.fact}</p>
+            {fact && (
+              <p className="mt-2 text-sm text-white/90 sm:text-base">
+                <span className="mr-1.5 rounded bg-white/15 px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white/80">
+                  {fact.label}
+                </span>
+                {fact.text}
+              </p>
+            )}
+            <a
+              href={wikiUrl(q.answer)}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-1 inline-block text-sm font-semibold text-white/70 underline-offset-2 hover:text-white hover:underline"
+            >
+              More about {q.answer.name} on Wikipedia ↗
+            </a>
             <button
               ref={nextRef}
               type="button"

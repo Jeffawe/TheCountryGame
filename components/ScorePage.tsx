@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { getRegion } from '../lib/countries'
 import { getLastResult, type GameResult } from '../lib/storage'
+import ScoreSubmit from './ScoreSubmit'
 
 function message(r: GameResult) {
   if (r.cleared) return `Flawless run. You named every flag in ${getRegion(r.region).label}!`
@@ -97,6 +98,8 @@ export default function ScorePage() {
           {copied ? 'Copied!' : 'Share'}
         </button>
       </div>
+
+      <ScoreSubmit result={result} />
     </div>
   )
 }
