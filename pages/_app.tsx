@@ -1,82 +1,28 @@
-import '../styles/globals.scss'
+import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import Head from 'next/head'
+import { Montserrat } from 'next/font/google'
 import { Layout } from '../components'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import axios from 'axios'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const [countries, setcountries] = useState<any[]>([]);
-  const [isLoading, setisLoading] = useState(false);
-  //sets the score of the player
-  const [score, setscore] = useState(0);
+const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'], display: 'swap' })
 
-  const router = useRouter();
-
-  const setIsLoadingFalse = () => {
-    setisLoading(false);
-  }
-
-  const addToScore = () => {
-    setscore(score + 1);
-  }
-
-  const setScoreToZero = () => {
-    setscore(0)
-  }
-
-  const onRegionClick = (region:String) => {
-    setisLoading(false)
-    const BaseUrl = 'https://restcountries.com/v3.1/region'
-    let urlToUse = ` `
-    switch(region) {
-      case "europe":
-        urlToUse =  `${BaseUrl}/europe`
-        break;
-      case "africa":
-        urlToUse = `${BaseUrl}/africa`
-        break;
-      case "oceania":
-        urlToUse = `${BaseUrl}/oceania`
-        break;
-      case "america":
-        urlToUse = `${BaseUrl}/america`
-        break;
-      case "asia":
-        urlToUse = `${BaseUrl}/asia`
-        break;
-      default:
-        urlToUse = `${BaseUrl}/africa`
-    }
-
-    getCountries(urlToUse)
-    gotoNextPage()
-  }
-
-  const gotoNextPage = () => {
-    router.push('/question')
-  }
-
-  const getCountries = async (url:any) => {
-    setisLoading(false);
-    axios(url)
-      .then((response) => {
-        const countries = response.data;
-        setcountries(countries)
-        setisLoading(true);
-      })
-      .catch((error) => {
-        console.log("Error Fetching Data");
-        setisLoading(true);
-      })
-  }
-
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
-      <Component {...pageProps} getCountries={getCountries} onRegionClick={onRegionClick} countries={countries} 
-        isLoading={isLoading} setLoadingFalse={setIsLoadingFalse} score={score} AddtoScore={addToScore} setscoreToZero={setScoreToZero}/>
-    </Layout>
+    <div className={montserrat.className}>
+      <Head>
+        <title>The Country Game</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="description" content="Test your geography. Identify the country behind each flag from around the world." />
+        <meta name="theme-color" content="#020617" />
+        <meta property="og:title" content="The Country Game" />
+        <meta property="og:description" content="How good is your geography? Name the country behind each flag." />
+        <meta property="og:type" content="website" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://flagcdn.com" crossOrigin="" />
+      </Head>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </div>
   )
 }
-
-export default MyApp
